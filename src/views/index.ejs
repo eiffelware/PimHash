@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PimHash v0.0.1</title>
+    <link rel="icon" type="image/ico" href="/public/favicon.ico">
+    <link rel="stylesheet" href="./public/css/index.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div class="center">
+      <h1>Encrypt your text using PimHash!</h1>
+      <div class="spacer"></div>
+      <div class="box">
+        <div id="rslt">
+          <p id="md5hash"></p>
+          <div class="spacer"></div>
+          <p id="sha256hash"></p>
+          <div class="spacer"></div>
+          <p id="sha512hash"></p>
+          <div class="spacer"></div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <div class="box2">
+        <form>
+          <textarea id="bubble" placeholder="Place text here to hash."></textarea>
+          <div class="spacer"></div>
+          <button type="button" id="gBTN">Generate Hashes</button>
+          <div class="spacer"></div>
+          <button type="button" class="cBTN" id="cBTN" onclick="copyHash()">Copy Hashes</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>
+<script defer>
+  var g = document.getElementById('md5hash')
+  var ge = document.getElementById('sha256hash');
+  var gee = document.getElementById('sha512hash');
+  var v = document.getElementById('bubble').value
+
+  function copyHash() {
+    var text = $("#rslt").get(0)
+    var selection = window.getSelection();
+    var range = document.createRange();
+    range.selectNodeContents(text);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    document.execCommand('copy');
+    g.innerHTML = "Copied Hashes.";
+    ge.innerHTML = ""
+    gee.innerHTML = ""
+    copy.classList.remove('cBTN-on');
+    copy.classList.add('cBTN');
+  }
+
+  g.innerHTML = "Generate A Hash.";
+  $('#gBTN').on("click", function(e) {
+    var g = document.getElementById('md5hash');
+    var ge = document.getElementById('sha256hash');
+    var gee = document.getElementById('sha512hash');
+    var copy = document.getElementById('cBTN');
+    var v = document.getElementById('bubble')
+
+    g.innerHTML = "Loading. . ."
+    ge.innerHTML = ""
+    gee.innerHTML = ""
+    fetch(`https://www.eiffelware.net/api/hash?content=${v.value}`, { method: 'GET' }).then((r) => r.json()).then((b) => {
+      if (b.OK == false) {
+        g.innerHTML = "";
+        g.innerHTML = b.error;
+      } else {
+        g.innerHTML = "";
+        g.innerHTML = `md5 Hash: ${b.md5}`;
+        ge.innerHTML = `sha256 Hash: ${b.sha.sha256}`;
+        gee.innerHTML = `sha512 Hash: ${b.sha.sha512}`;
+        copy.classList.remove('cBTN');
+        copy.classList.add('cBTN-on');
+      }
+    })
+  })
+</script>

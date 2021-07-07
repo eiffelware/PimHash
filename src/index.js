@@ -1,6 +1,9 @@
 const { app, BrowserWindow } = require('electron');
 const ejs = require('ejs-electron');
 const path = require('path');
+const fetch = require('node-fetch');
+const jq = require('jquery');
+const fs = require('fs');
 
 if (require('electron-squirrel-startup')) { 
   app.quit();
@@ -13,23 +16,41 @@ const createWindow = () => {
     resizable: false,
     frame: false,
     icon: __dirname + '/views/public/favicon.ico',
-    autoHideMenuBar: true
+    autoHideMenuBar: true,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
   })
   const mainWindow = new BrowserWindow({
     width: 575,
     height: 625,
-    resizable: false,
+    minHeight: 625,
+    minWidth: 575,
+    resizable: true,
     icon: __dirname + '/views/public/favicon.ico',
     autoHideMenuBar: true,
-    show: false
+    show: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false
+    }
   });
 
   splashWindow.loadFile(path.join(__dirname, '/views/splash.ejs'));
   mainWindow.loadFile(path.join(__dirname, '/views/index.ejs'));
 
-  splashWindow.once('close', () => {
-    mainWindow.show();
-  })
+  fetch(`https://www.eiffelware.net/api/apps/pimhash/0.0.2`, {
+      method: 'get'
+    }).then((r) => r.json()).then((b) => {
+      splashWindow.once('close', () => {
+        if (!b.auth) return app.quit()
+        if (b.update) return app.quit()
+        if (b.auth) { return mainWindow.show() }
+        else { app.quit() };
+      })
+    });
+
   mainWindow.setMenu(null);
   splashWindow.setMenu(null);
   //mainWindow.webContents.openDevTools(); 

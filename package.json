@@ -1,8 +1,8 @@
 {
   "name": "pimhash",
   "productName": "PimHash",
-  "version": "0.0.1",
-  "description": "Encrypt your text using PimHasher!",
+  "version": "0.0.2",
+  "description": "Encrypt your text using PimHash!",
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
@@ -11,7 +11,7 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
     "build": "npm run pack:win64",
-    "pack:win64": "electron-packager . PimHash --out=dist/win --platform=win32 --arch=x64 app-version=0.1 --icon=./src/views/public/favicon.ico --overwrite"
+    "pack:win64": "electron-packager . PimHash --out=dist/win --platform=win32 --arch=x64 app-version=0.0.2 --icon=./src/views/public/favicon.ico --overwrite"
   },
   "keywords": [],
   "author": {
@@ -49,7 +49,10 @@
   "dependencies": {
     "ejs": "^3.1.6",
     "ejs-electron": "^2.1.1",
-    "electron-squirrel-startup": "^1.0.0"
+    "electron-squirrel-startup": "^1.0.0",
+    "fs": "0.0.1-security",
+    "jquery": "^3.6.0",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.54",

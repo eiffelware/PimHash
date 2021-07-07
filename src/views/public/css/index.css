@@ -4,7 +4,6 @@
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   background-color: #1F2428;
   margin: auto;
   padding: 10px;
@@ -23,10 +22,10 @@ body {
 
 .box {
   color: white;
-  background-color: rgb(100, 100, 100);
+  background-color: rgb(73, 73, 73);
   box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
-  padding: 5px;
+  padding: 2.5px;
   padding-bottom: 1px;
   width: 32em;
   margin: auto;
@@ -35,7 +34,7 @@ body {
 
 .box2 {
   color: white;
-  background-color: rgb(100, 100, 100);
+  background-color: rgb(73, 73, 73);
   box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
   border-radius: 5px;
   padding: 5px;
@@ -52,8 +51,8 @@ body {
   color: white; 
   background-color: green; 
   border: solid black 1px; 
-  border-radius: 5em; 
-  padding: 5px; 
+  border-radius: 5px; 
+  padding: .5px; 
   width: 15em; 
   margin: auto; 
   text-decoration: none; 
@@ -66,5 +65,5 @@ body {
 h1 { color: white; font-weight: bold; font-size: 22px; letter-spacing: .4px; }
 #bubble { box-sizing: border-box; box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4); border: solid rgb(100, 100, 100) 2px; border-radius: 5px; margin-top: 5px; padding: 12px 10px; resize: none; height: 215px; width: 375px; }
 #bubble:focus { border: 2px solid black; background-color: lightblue; outline-style: none; transition: .4s; }
-#gBTN { color: white; background-color: green; border: solid black 1px; border-radius: 5em; outline: none; padding: 5px; width: 15em; margin: auto; text-decoration: none; text-transform: uppercase; font-weight: bold; cursor: pointer; }
-#md5hash, #sha256hash, #sha512hash { color: rgb(238, 236, 236); font-weight: bold; font-size: 14px; letter-spacing: .8px; }
+#gBTN { color: white; background-color: green; border: solid black 1px; border-radius: 5px; outline: none; padding: .5px; width: 15em; margin: auto; text-decoration: none; text-transform: uppercase; font-weight: bold; cursor: pointer; }
+#md5hash, #sha256hash, #sha512hash { color: rgb(238, 236, 236); font-weight: bold; font-size: 14px; letter-spacing: .3px; margin-bottom: 5px; }

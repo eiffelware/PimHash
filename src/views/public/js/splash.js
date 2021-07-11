@@ -2,7 +2,7 @@ const fetch = require('node-fetch');
 var progress = document.getElementById('progressBar');
 var a = document.getElementById('text');
 
-fetch(`https://www.eiffelware.net/api/apps/pimhash/0.0.2`, {
+fetch(`https://www.eiffelware.net/api/apps/pimhash/0.1`, {
     method: 'get'
 }).then((r) => r.json()).then((b) => {
     console.log(b);

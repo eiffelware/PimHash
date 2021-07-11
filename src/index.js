@@ -24,8 +24,8 @@ const createWindow = () => {
   })
   const mainWindow = new BrowserWindow({
     width: 575,
-    height: 625,
-    minHeight: 625,
+    height: 760,
+    minHeight: 760,
     minWidth: 575,
     resizable: true,
     icon: __dirname + '/views/public/favicon.ico',
@@ -40,7 +40,7 @@ const createWindow = () => {
   splashWindow.loadFile(path.join(__dirname, '/views/splash.ejs'));
   mainWindow.loadFile(path.join(__dirname, '/views/index.ejs'));
 
-  fetch(`https://www.eiffelware.net/api/apps/pimhash/0.0.2`, {
+  fetch(`https://www.eiffelware.net/api/apps/pimhash/0.1`, {
       method: 'get'
     }).then((r) => r.json()).then((b) => {
       splashWindow.once('close', () => {

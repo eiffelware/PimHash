@@ -1,34 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PimHash v0.1 : Library</title>
-    <link rel="icon" type="image/ico" href="/public/favicon.ico">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="./public/css/library.css">
-    <script>window.$ = window.jQuery = require('jquery');</script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Archivo+Narrow&display=swap" rel="stylesheet">
-</head>
+    <%- include('./meta/index', { title: 'Library', css: 'library' }); %>
 <body>
     <div class="center">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container-fluid">
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-              </button>
-              <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                  <a class="nav-link active" aria-current="page" href="./index.ejs">Home</a>
-                  <a class="nav-link" aria-current="page" href="./library.ejs">Library</a>
-                </div>
-              </div>
-            </div>
-          </nav>
+        <%- include('./meta/nav'); %>
         <h1>Official PimHash Library</h1>
         <div class="spacer"></div>
         <div class="box" id="box">
@@ -51,53 +26,64 @@
 </body>
 </html>
 <script defer>
-    const v = document.getElementById('bubble');
-    const box = document.getElementById('box');
-    const form = document.getElementById('form');
-    const a = document.getElementById('info');
-    const g = document.getElementById('md5hash')
-    const ge = document.getElementById('sha256hash');
-    const gee = document.getElementById('sha384hash');
-    const geee = document.getElementById('sha512hash');
-    const cached = document.getElementById('cached');
+const v = document.getElementById('bubble');
+const box = document.getElementById('box');
+const form = document.getElementById('form');
+const a = document.getElementById('info');
+const g = document.getElementById('md5hash')
+const ge = document.getElementById('sha256hash');
+const gee = document.getElementById('sha384hash');
+const geee = document.getElementById('sha512hash');
+const cached = document.getElementById('cached');
+let cookie = localStorage.getItem("session");
 
-    $('#form').submit(function(e) {
-        e.preventDefault();
-        if (v.value.length == 0) { 
-            box.classList.remove('box');
-            box.classList.add('box-show');
-            form.style.marginTop = "35px";
-            a.innerHTML = "You need to enter an ID to continue"; 
+fetch(`https://www.eiffelware.net/api/v1/apps/pimhash/auth`, { method: 'post', headers: { session: cookie } }).then((r) => r.json()).then((b) => {
+  if (b.OK == false || b.error) window.close();
+  let acc = b;
+  var accn = document.getElementById('accNav');
+  var logn = document.getElementById('logoutNav');
+  accn.setAttribute('onclick', `window.open("https://www.eiffelware.net/dashboard?auth=${cookie}")`);
+  logn.setAttribute('onclick', `localStorage.removeItem("session"), window.close()`);
+  console.log(b);
+});
+
+$('#form').submit(function(e) {
+    e.preventDefault();
+    if (v.value.length == 0) { 
+        box.classList.remove('box');
+        box.classList.add('box-show');
+        form.style.marginTop = "35px";
+        a.innerHTML = "You need to enter an ID to continue"; 
+        g.innerHTML = "";
+        ge.innerHTML = "";
+        gee.innerHTML = "";
+        geee.innerHTML = "";
+        cached.innerHTML = "";
+        return;
+    };
+    if (v.value.length > 0) {
+        fetch(`https://www.eiffelware.net/api/hash/library/${v.value}`, { method: 'GET' }).then((r) => r.json()).then((b) => {
+        box.classList.remove('box');
+        box.classList.add('box-show');
+        form.style.marginTop = "35px";
+        if (b.OK == false) {
+            a.innerHTML = `${b.error}`;
             g.innerHTML = "";
             ge.innerHTML = "";
             gee.innerHTML = "";
             geee.innerHTML = "";
             cached.innerHTML = "";
-            return;
         };
-        if (v.value.length > 0) {
-            fetch(`https://www.eiffelware.net/api/hash/library/${v.value}`, { method: 'GET' }).then((r) => r.json()).then((b) => {
-            box.classList.remove('box');
-            box.classList.add('box-show');
-            form.style.marginTop = "35px";
-            if (b.OK == false) {
-                a.innerHTML = `${b.error}`;
-                g.innerHTML = "";
-                ge.innerHTML = "";
-                gee.innerHTML = "";
-                geee.innerHTML = "";
-                cached.innerHTML = "";
-            };
-            if (b.OK == true) {
-                a.innerHTML = "";
-                if (b.hash.md5) {
-                    g.innerHTML = `md5: ${b.hash.md5}`;
-                    ge.innerHTML = `sha256: ${b.hash.sha256}`;
-                    gee.innerHTML = `sha384: ${b.hash.sha384}`;
-                    geee.innerHTML = `sha512: ${b.hash.sha512}`;
-                    cached.innerHTML = `Cached Date: ${b.pimapi.cachedOn}`;
-                }
-            };
-        })};
-    });
+        if (b.OK == true) {
+            a.innerHTML = "";
+            if (b.hash.md5) {
+                g.innerHTML = `md5: ${b.hash.md5}`;
+                ge.innerHTML = `sha256: ${b.hash.sha256}`;
+                gee.innerHTML = `sha384: ${b.hash.sha384}`;
+                geee.innerHTML = `sha512: ${b.hash.sha512}`;
+                cached.innerHTML = `Cached Date: ${b.pimapi.cachedOn}`;
+            }
+        };
+    })};
+});
 </script>

@@ -1,7 +1,7 @@
 {
   "name": "pimhash",
   "productName": "PimHash",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Encrypt your text using PimHash!",
   "main": "src/index.js",
   "scripts": {
@@ -11,7 +11,7 @@
     "publish": "electron-forge publish",
     "lint": "echo \"No linting configured\"",
     "build": "npm run pack:win64",
-    "pack:win64": "electron-packager . PimHash --out=dist/win --platform=win32 --arch=x64 app-version=0.1 --icon=./src/views/public/favicon.ico --overwrite"
+    "pack:win64": "electron-packager . PimHash --out=dist/win --platform=win32 --arch=x64 app-version=0.1.1 --icon=./src/views/public/favicon.ico --overwrite"
   },
   "keywords": [],
   "author": {
